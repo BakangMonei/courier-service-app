@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        paddingTop: 60,
+        paddingTop: 150,
     },
     title: {
         fontSize: 24,
@@ -130,6 +130,7 @@ const styles = StyleSheet.create({
     inputLabel: {
         fontSize: 16,
         fontWeight: '500',
+        marginTop: 20,
         marginBottom: 8,
     },
     input: {
@@ -202,7 +203,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height: 50,
         borderWidth: 1,
-        borderRadius: 8,
+        borderRadius: 15,
         justifyContent: 'center',
         alignItems: 'center',
         marginHorizontal: 5,

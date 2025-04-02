@@ -22,7 +22,7 @@ export default function ForgotPasswordScreen() {
             <StatusBar style={isDark ? "light" : "dark"} />
             <Text style={[styles.title, { color: theme.colors.text }]}>Forgot Password</Text>
             <Text style={[styles.subtitle, { color: theme.colors.textSecondary }]}>
-                Enter your email address to reset your password
+                Enter your email address to reset your password and we will send an OTP
             </Text>
 
             <View style={styles.form}>
@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
+        paddingTop: 120,
     },
     title: {
         fontSize: 32,
@@ -89,6 +90,7 @@ const styles = StyleSheet.create({
         marginBottom: 16,
     },
     inputLabel: {
+        marginTop: 40,
         fontSize: 16,
         fontWeight: '500',
         marginBottom: 8,
