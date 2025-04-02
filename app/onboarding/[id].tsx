@@ -1,6 +1,7 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { View, Text, StyleSheet, Image, TouchableOpacity, StatusBar } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useTheme } from "../context/ThemeContext";
 
 export type OnboardingScreen = {
     id: string;
@@ -15,6 +16,7 @@ export default function OnboardingScreen() {
     const { id } = useLocalSearchParams<{ id: string }>();
     const router = useRouter();
     const insets = useSafeAreaInsets();
+    const { theme, isDark } = useTheme();
 
     const screens: Record<string, OnboardingScreen> = {
         "1": {
@@ -65,15 +67,19 @@ export default function OnboardingScreen() {
     };
 
     return (
-        <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
-            <StatusBar barStyle="dark-content" />
+        <View style={[styles.container, { 
+            paddingTop: insets.top, 
+            paddingBottom: insets.bottom,
+            backgroundColor: theme.colors.background 
+        }]}>
+            <StatusBar barStyle={isDark ? "light-content" : "dark-content"} />
 
             <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
-                <Text style={styles.skipText}>Skip</Text>
+                <Text style={[styles.skipText, { color: theme.colors.textSecondary }]}>Skip</Text>
             </TouchableOpacity>
 
             <View style={styles.content}>
-                <View style={styles.imageContainer}>
+                <View style={[styles.imageContainer, { backgroundColor: theme.colors.secondary }]}>
                     <Image
                         source={currentScreen.image}
                         style={styles.image}
@@ -81,13 +87,18 @@ export default function OnboardingScreen() {
                     />
                 </View>
 
-                <Text style={styles.title}>{currentScreen.title}</Text>
-                <Text style={styles.description}>{currentScreen.description}</Text>
+                <Text style={[styles.title, { color: theme.colors.text }]}>{currentScreen.title}</Text>
+                <Text style={[styles.description, { color: theme.colors.textSecondary }]}>{currentScreen.description}</Text>
             </View>
 
             <View style={styles.footer}>
-                <TouchableOpacity style={styles.button} onPress={handleNavigation}>
-                    <Text style={styles.buttonText}>{currentScreen.buttonText}</Text>
+                <TouchableOpacity 
+                    style={[styles.button, { backgroundColor: theme.colors.primary }]} 
+                    onPress={handleNavigation}
+                >
+                    <Text style={[styles.buttonText, { color: theme.colors.background }]}>
+                        {currentScreen.buttonText}
+                    </Text>
                 </TouchableOpacity>
 
                 <View style={styles.dotsContainer}>
@@ -96,7 +107,11 @@ export default function OnboardingScreen() {
                             key={screenId}
                             style={[
                                 styles.dot,
-                                getActiveDotIndex() === index ? styles.activeDot : {},
+                                { backgroundColor: theme.colors.dot },
+                                getActiveDotIndex() === index ? [
+                                    styles.activeDot,
+                                    { backgroundColor: theme.colors.dotActive }
+                                ] : {},
                             ]}
                         />
                     ))}
@@ -109,7 +124,6 @@ export default function OnboardingScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "white",
     },
     skipButton: {
         alignSelf: "flex-end",
@@ -117,7 +131,6 @@ const styles = StyleSheet.create({
     },
     skipText: {
         fontSize: 16,
-        color: "#6B7280",
         fontWeight: "500",
     },
     content: {
@@ -130,7 +143,6 @@ const styles = StyleSheet.create({
         width: 160,
         height: 160,
         borderRadius: 80,
-        backgroundColor: "#F3F4F6",
         justifyContent: "center",
         alignItems: "center",
         marginBottom: 40,
@@ -144,12 +156,10 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         textAlign: "center",
         marginBottom: 16,
-        color: "#1F2937",
     },
     description: {
         fontSize: 16,
         textAlign: "center",
-        color: "#6B7280",
         lineHeight: 24,
         paddingHorizontal: 16,
     },
@@ -158,7 +168,6 @@ const styles = StyleSheet.create({
         paddingBottom: 40,
     },
     button: {
-        backgroundColor: "#1F2937",
         borderRadius: 8,
         height: 56,
         justifyContent: "center",
@@ -166,7 +175,6 @@ const styles = StyleSheet.create({
         marginBottom: 32,
     },
     buttonText: {
-        color: "white",
         fontSize: 16,
         fontWeight: "600",
     },
@@ -180,10 +188,8 @@ const styles = StyleSheet.create({
         width: 16,
         height: 8,
         borderRadius: 4,
-        backgroundColor: "#E5E7EB",
     },
     activeDot: {
         width: 24,
-        backgroundColor: "#1F2937",
     },
 });

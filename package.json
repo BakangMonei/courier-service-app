@@ -1,6 +1,17 @@
 {
   "name": "courier-service-app",
+  "slug": "courier-service-app",
+  "orientation": "portrait",
+  "scheme": "courier-service-app",
+  "userInterfaceStyle": "automatic",
   "main": "expo-router/entry",
+  "author": {
+    "name": "Monei Bakang Mothuti",
+    "email": "bakangmonei2@gmail.com",
+    "url": "https://github.com/bakangmonei",
+    "website": "https://www.swiftiq.co.bw",
+    "phone": "26772711192"
+  },
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
