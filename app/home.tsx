@@ -1,47 +1,37 @@
-import { View, Text, StyleSheet } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import React from 'react';
+import { View, Text, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { useTheme } from './context/ThemeContext';
 
 export default function HomeScreen() {
-    const insets = useSafeAreaInsets();
+    const { theme, isDark } = useTheme();
 
     return (
-        <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
-            <Text style={styles.title}>Welcome to AirSprint</Text>
-            <Text style={styles.subtitle}>Your shipping partner</Text>
-
-            <View style={styles.infoBox}>
-                <Text style={styles.infoText}>This is the main app screen. You can now implement the actual shipping functionality here.</Text>
-            </View>
-        </View>
+        <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
+            <StatusBar style={isDark ? "light" : "dark"} />
+            <ScrollView contentContainerStyle={styles.content}>
+                <Text style={[styles.title, { color: theme.colors.text }]}>Welcome</Text>
+                <Text style={[styles.subtitle, { color: theme.colors.textSecondary }]}>
+                    Track your deliveries with ease
+                </Text>
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "white",
-        padding: 24,
+    },
+    content: {
+        padding: 20,
     },
     title: {
-        fontSize: 28,
-        fontWeight: "bold",
-        color: "#1F2937",
-        marginTop: 24,
+        fontSize: 32,
+        fontWeight: 'bold',
+        marginBottom: 8,
     },
     subtitle: {
-        fontSize: 18,
-        color: "#6B7280",
-        marginBottom: 24,
-    },
-    infoBox: {
-        backgroundColor: "#F3F4F6",
-        padding: 16,
-        borderRadius: 8,
-        marginTop: 24,
-    },
-    infoText: {
         fontSize: 16,
-        color: "#1F2937",
-        lineHeight: 24,
     },
 });
