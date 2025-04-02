@@ -2,7 +2,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { View, Text, StyleSheet, Image, TouchableOpacity, StatusBar } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-type OnboardingScreen = {
+export type OnboardingScreen = {
     id: string;
     title: string;
     description: string;
@@ -43,6 +43,8 @@ export default function OnboardingScreen() {
         },
     };
 
+    const screenOrder = ["1", "7", "3"];
+
     const currentScreen = screens[id as string];
 
     if (!currentScreen) {
@@ -59,8 +61,7 @@ export default function OnboardingScreen() {
     };
 
     const getActiveDotIndex = () => {
-        const screenIds = Object.keys(screens);
-        return screenIds.indexOf(id as string);
+        return screenOrder.indexOf(id as string);
     };
 
     return (
@@ -90,7 +91,7 @@ export default function OnboardingScreen() {
                 </TouchableOpacity>
 
                 <View style={styles.dotsContainer}>
-                    {Object.keys(screens).map((screenId, index) => (
+                    {screenOrder.map((screenId, index) => (
                         <View
                             key={screenId}
                             style={[
