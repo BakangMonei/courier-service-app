@@ -9,7 +9,7 @@ export type OnboardingScreen = {
     description: string;
     image: any;
     buttonText: string;
-    nextRoute: "/home" | "/onboarding/7" | "/onboarding/3";
+    nextRoute: "/home" | "/onboarding/7" | "/onboarding/3" | "/auth/sign-in";
 };
 
 export default function OnboardingScreen() {
@@ -41,7 +41,7 @@ export default function OnboardingScreen() {
             description: "Stay informed about the parcel and get the real-time location",
             image: require("../../assets/images/map-image.png"),
             buttonText: "Continue",
-            nextRoute: "/home",
+            nextRoute: "/auth/sign-in",
         },
     };
 
@@ -59,7 +59,7 @@ export default function OnboardingScreen() {
     };
 
     const handleSkip = () => {
-        router.push("/home");
+        router.push("/auth/sign-in");
     };
 
     const getActiveDotIndex = () => {
