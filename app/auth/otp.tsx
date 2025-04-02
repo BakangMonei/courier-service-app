@@ -34,7 +34,7 @@ export default function OTPScreen() {
     };
 
     return (
-        <ScrollView 
+        <ScrollView
             style={[styles.container, { backgroundColor: theme.colors.background }]}
             showsVerticalScrollIndicator={false}
         >
@@ -50,7 +50,7 @@ export default function OTPScreen() {
                         <TextInput
                             key={index}
                             ref={(ref) => ref && (inputRefs.current[index] = ref)}
-                            style={[styles.otpInput, { 
+                            style={[styles.otpInput, {
                                 backgroundColor: theme.colors.secondary,
                                 color: theme.colors.text,
                                 borderColor: theme.colors.border
@@ -70,7 +70,7 @@ export default function OTPScreen() {
                     ))}
                 </View>
 
-                <TouchableOpacity 
+                <TouchableOpacity
                     style={[styles.verifyButton, { backgroundColor: theme.colors.primary }]}
                     onPress={handleVerifyOTP}
                 >

@@ -67,10 +67,10 @@ export default function OnboardingScreen() {
     };
 
     return (
-        <View style={[styles.container, { 
-            paddingTop: insets.top, 
+        <View style={[styles.container, {
+            paddingTop: insets.top,
             paddingBottom: insets.bottom,
-            backgroundColor: theme.colors.background 
+            backgroundColor: theme.colors.background
         }]}>
             <StatusBar barStyle={isDark ? "light-content" : "dark-content"} />
 
@@ -92,8 +92,8 @@ export default function OnboardingScreen() {
             </View>
 
             <View style={styles.footer}>
-                <TouchableOpacity 
-                    style={[styles.button, { backgroundColor: theme.colors.primary }]} 
+                <TouchableOpacity
+                    style={[styles.button, { backgroundColor: theme.colors.primary }]}
                     onPress={handleNavigation}
                 >
                     <Text style={[styles.buttonText, { color: theme.colors.background }]}>

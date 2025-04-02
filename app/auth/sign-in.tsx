@@ -18,7 +18,7 @@ export default function SignInScreen() {
     };
 
     return (
-        <ScrollView 
+        <ScrollView
             style={[styles.container, { backgroundColor: theme.colors.background }]}
             showsVerticalScrollIndicator={false}
         >
@@ -28,7 +28,7 @@ export default function SignInScreen() {
             <View style={styles.inputContainer}>
                 <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Email Address</Text>
                 <TextInput
-                    style={[styles.input, { 
+                    style={[styles.input, {
                         backgroundColor: theme.colors.secondary,
                         color: theme.colors.text,
                         borderColor: theme.colors.border
@@ -44,7 +44,7 @@ export default function SignInScreen() {
 
             <View style={styles.inputContainer}>
                 <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Password</Text>
-                <View style={[styles.passwordContainer, { 
+                <View style={[styles.passwordContainer, {
                     backgroundColor: theme.colors.secondary,
                     borderColor: theme.colors.border
                 }]}>

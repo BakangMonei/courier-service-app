@@ -16,6 +16,7 @@ import * as ImagePicker from 'expo-image-picker';
 import CountryPicker, { Country } from 'react-native-country-picker-modal';
 import PhoneInput from 'react-native-phone-number-input';
 import { useTheme } from '../context/ThemeContext';
+import CountryPickerModal from '../components/CountryPickerModal';
 
 export default function RegisterScreen() {
   const { theme, isDark } = useTheme();
@@ -146,11 +147,7 @@ export default function RegisterScreen() {
                 countryCode={country.cca2}
                 withFlag
                 withCountryNameButton
-                onSelect={(country: Country) => {
-                  setCountry(country);
-                  setShowCountryPicker(false);
-                }}
-                visible={showCountryPicker}
+                visible={false}
               />
             </View>
           ) : (
@@ -162,22 +159,41 @@ export default function RegisterScreen() {
         </TouchableOpacity>
       </View>
 
+      <CountryPickerModal
+        visible={showCountryPicker}
+        onClose={() => setShowCountryPicker(false)}
+        onSelect={setCountry}
+        selectedCountry={country || undefined}
+      />
+
       <View style={styles.inputContainer}>
         <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Phone Number</Text>
-        <PhoneInput
-          defaultValue={phoneNumber}
-          defaultCode={country?.cca2 || 'US'}
-          layout="first"
-          onChangeText={setPhoneNumber}
-          containerStyle={[styles.phoneInputContainer, { 
-            backgroundColor: theme.colors.secondary,
-            borderColor: theme.colors.border
-          }]}
-          textContainerStyle={[styles.phoneTextContainer, { 
-            backgroundColor: theme.colors.secondary,
-            color: theme.colors.text
-          }]}
-        />
+        <View style={[styles.input, { 
+          backgroundColor: theme.colors.secondary,
+          borderColor: theme.colors.border,
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 16,
+        }]}>
+          <PhoneInput
+            defaultValue={phoneNumber}
+            defaultCode={country?.cca2 || 'US'}
+            layout="first"
+            onChangeText={setPhoneNumber}
+            containerStyle={styles.phoneInput}
+            textInputStyle={{ 
+              color: theme.colors.text,
+              fontSize: 16,
+              height: 48,
+            }}
+            textContainerStyle={{
+              backgroundColor: 'transparent',
+              borderLeftWidth: 1,
+              borderLeftColor: theme.colors.border,
+              paddingLeft: 16,
+            }}
+          />
+        </View>
       </View>
 
       <View style={styles.inputContainer}>
@@ -413,10 +429,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 16,
+    overflow: 'hidden',
   },
-  phoneTextContainer: {
+  phoneInput: {
     height: 48,
-    fontSize: 16,
+    width: '100%',
+    backgroundColor: 'transparent',
   },
   genderContainer: {
     flexDirection: 'row',

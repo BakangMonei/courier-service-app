@@ -19,7 +19,7 @@ export default function SetPasswordScreen() {
     };
 
     return (
-        <ScrollView 
+        <ScrollView
             style={[styles.container, { backgroundColor: theme.colors.background }]}
             showsVerticalScrollIndicator={false}
         >
@@ -32,7 +32,7 @@ export default function SetPasswordScreen() {
             <View style={styles.form}>
                 <View style={styles.inputContainer}>
                     <Text style={[styles.inputLabel, { color: theme.colors.text }]}>New Password</Text>
-                    <View style={[styles.passwordContainer, { 
+                    <View style={[styles.passwordContainer, {
                         backgroundColor: theme.colors.secondary,
                         borderColor: theme.colors.border
                     }]}>
@@ -45,13 +45,13 @@ export default function SetPasswordScreen() {
                             secureTextEntry={!showNewPassword}
                             autoCapitalize="none"
                         />
-                        <TouchableOpacity 
-                            style={styles.eyeIcon} 
+                        <TouchableOpacity
+                            style={styles.eyeIcon}
                             onPress={() => setShowNewPassword(!showNewPassword)}
                         >
-                            <Ionicons 
-                                name={showNewPassword ? "eye-off-outline" : "eye-outline"} 
-                                size={24} 
+                            <Ionicons
+                                name={showNewPassword ? "eye-off-outline" : "eye-outline"}
+                                size={24}
                                 color={theme.colors.textSecondary}
                             />
                         </TouchableOpacity>
@@ -60,7 +60,7 @@ export default function SetPasswordScreen() {
 
                 <View style={styles.inputContainer}>
                     <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Confirm Password</Text>
-                    <View style={[styles.passwordContainer, { 
+                    <View style={[styles.passwordContainer, {
                         backgroundColor: theme.colors.secondary,
                         borderColor: theme.colors.border
                     }]}>
@@ -73,20 +73,20 @@ export default function SetPasswordScreen() {
                             secureTextEntry={!showConfirmPassword}
                             autoCapitalize="none"
                         />
-                        <TouchableOpacity 
-                            style={styles.eyeIcon} 
+                        <TouchableOpacity
+                            style={styles.eyeIcon}
                             onPress={() => setShowConfirmPassword(!showConfirmPassword)}
                         >
-                            <Ionicons 
-                                name={showConfirmPassword ? "eye-off-outline" : "eye-outline"} 
-                                size={24} 
+                            <Ionicons
+                                name={showConfirmPassword ? "eye-off-outline" : "eye-outline"}
+                                size={24}
                                 color={theme.colors.textSecondary}
                             />
                         </TouchableOpacity>
                     </View>
                 </View>
 
-                <TouchableOpacity 
+                <TouchableOpacity
                     style={[styles.resetButton, { backgroundColor: theme.colors.primary }]}
                     onPress={handleResetPassword}
                 >

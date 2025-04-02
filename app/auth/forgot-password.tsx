@@ -15,7 +15,7 @@ export default function ForgotPasswordScreen() {
     };
 
     return (
-        <ScrollView 
+        <ScrollView
             style={[styles.container, { backgroundColor: theme.colors.background }]}
             showsVerticalScrollIndicator={false}
         >
@@ -29,7 +29,7 @@ export default function ForgotPasswordScreen() {
                 <View style={styles.inputContainer}>
                     <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Email Address</Text>
                     <TextInput
-                        style={[styles.input, { 
+                        style={[styles.input, {
                             backgroundColor: theme.colors.secondary,
                             color: theme.colors.text,
                             borderColor: theme.colors.border
@@ -43,7 +43,7 @@ export default function ForgotPasswordScreen() {
                     />
                 </View>
 
-                <TouchableOpacity 
+                <TouchableOpacity
                     style={[styles.resetButton, { backgroundColor: theme.colors.primary }]}
                     onPress={handleResetPassword}
                 >
