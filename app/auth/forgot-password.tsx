@@ -1,73 +1,92 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import { Link, useRouter } from 'expo-router';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useTheme } from '../context/ThemeContext';
 
 export default function ForgotPasswordScreen() {
+    const { theme, isDark } = useTheme();
     const [email, setEmail] = useState('');
     const router = useRouter();
 
-    const handleContinue = () => {
-        // Implement sending OTP logic here
+    const handleResetPassword = () => {
+        // Implement password reset logic here
         router.push('/auth/otp');
     };
 
     return (
-        <View style={styles.container}>
-            <StatusBar style="dark" />
-            <Text style={styles.title}>Forgot Password?</Text>
-            <Text style={styles.description}>
-                Enter your email address, and we will send an OTP
+        <ScrollView 
+            style={[styles.container, { backgroundColor: theme.colors.background }]}
+            showsVerticalScrollIndicator={false}
+        >
+            <StatusBar style={isDark ? "light" : "dark"} />
+            <Text style={[styles.title, { color: theme.colors.text }]}>Forgot Password</Text>
+            <Text style={[styles.subtitle, { color: theme.colors.textSecondary }]}>
+                Enter your email address to reset your password
             </Text>
 
-            <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Email Address</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Enter email address"
-                    value={email}
-                    onChangeText={setEmail}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                />
-            </View>
+            <View style={styles.form}>
+                <View style={styles.inputContainer}>
+                    <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Email Address</Text>
+                    <TextInput
+                        style={[styles.input, { 
+                            backgroundColor: theme.colors.secondary,
+                            color: theme.colors.text,
+                            borderColor: theme.colors.border
+                        }]}
+                        placeholder="Enter email address"
+                        placeholderTextColor={theme.colors.textSecondary}
+                        value={email}
+                        onChangeText={setEmail}
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                    />
+                </View>
 
-            <TouchableOpacity
-                style={styles.continueButton}
-                onPress={handleContinue}
-            >
-                <Text style={styles.continueButtonText}>Continue</Text>
-            </TouchableOpacity>
+                <TouchableOpacity 
+                    style={[styles.resetButton, { backgroundColor: theme.colors.primary }]}
+                    onPress={handleResetPassword}
+                >
+                    <Text style={[styles.resetButtonText, { color: theme.colors.background }]}>
+                        Reset Password
+                    </Text>
+                </TouchableOpacity>
 
-            <View style={styles.footerContainer}>
-                <Text style={styles.rememberText}>Remembered password? </Text>
-                <Link href="/auth/sign-in" style={styles.signInLink}>Sign In</Link>
+                <View style={styles.footerContainer}>
+                    <Text style={[styles.footerText, { color: theme.colors.text }]}>
+                        Remember your password?{' '}
+                    </Text>
+                    <TouchableOpacity onPress={() => router.push('/auth/sign-in')}>
+                        <Text style={[styles.signInLink, { color: theme.colors.primary }]}>Sign In</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'white',
         padding: 20,
-        paddingTop: 60,
     },
     title: {
-        fontSize: 24,
+        fontSize: 32,
         fontWeight: 'bold',
-        marginBottom: 16,
+        marginTop: 60,
+        marginBottom: 8,
         textAlign: 'center',
     },
-    description: {
+    subtitle: {
         fontSize: 16,
-        color: '#6B7280',
         textAlign: 'center',
         marginBottom: 40,
     },
+    form: {
+        gap: 16,
+    },
     inputContainer: {
-        marginBottom: 20,
+        marginBottom: 16,
     },
     inputLabel: {
         fontSize: 16,
@@ -75,38 +94,34 @@ const styles = StyleSheet.create({
         marginBottom: 8,
     },
     input: {
-        height: 50,
+        height: 48,
         borderWidth: 1,
-        borderColor: '#E5E7EB',
         borderRadius: 8,
         paddingHorizontal: 16,
         fontSize: 16,
     },
-    continueButton: {
-        backgroundColor: '#1F2937',
-        height: 50,
+    resetButton: {
+        height: 56,
         borderRadius: 8,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 20,
+        marginBottom: 16,
     },
-    continueButtonText: {
-        color: 'white',
+    resetButtonText: {
         fontSize: 16,
         fontWeight: '600',
     },
     footerContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
-        marginTop: 20,
+        alignItems: 'center',
+        marginBottom: 32,
     },
-    rememberText: {
-        fontSize: 14,
-        color: '#6B7280',
+    footerText: {
+        fontSize: 16,
     },
     signInLink: {
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: '600',
-        color: '#1F2937',
     },
 });

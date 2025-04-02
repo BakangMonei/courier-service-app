@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
+import { useTheme } from '../context/ThemeContext';
 
 export default function SetPasswordScreen() {
+    const { theme, isDark } = useTheme();
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showNewPassword, setShowNewPassword] = useState(false);
@@ -17,88 +19,113 @@ export default function SetPasswordScreen() {
     };
 
     return (
-        <View style={styles.container}>
-            <StatusBar style="dark" />
-            <Text style={styles.title}>Set New Password</Text>
+        <ScrollView 
+            style={[styles.container, { backgroundColor: theme.colors.background }]}
+            showsVerticalScrollIndicator={false}
+        >
+            <StatusBar style={isDark ? "light" : "dark"} />
+            <Text style={[styles.title, { color: theme.colors.text }]}>Set New Password</Text>
+            <Text style={[styles.subtitle, { color: theme.colors.textSecondary }]}>
+                Create a new password for your account
+            </Text>
 
-            <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>New Password</Text>
-                <View style={styles.passwordContainer}>
-                    <TextInput
-                        style={styles.passwordInput}
-                        placeholder="Enter new password"
-                        value={newPassword}
-                        onChangeText={setNewPassword}
-                        secureTextEntry={!showNewPassword}
-                        autoCapitalize="none"
-                    />
-                    <TouchableOpacity
-                        style={styles.eyeIcon}
-                        onPress={() => setShowNewPassword(!showNewPassword)}
-                    >
-                        <Ionicons
-                            name={showNewPassword ? "eye-off-outline" : "eye-outline"}
-                            size={24}
-                            color="#9CA3AF"
+            <View style={styles.form}>
+                <View style={styles.inputContainer}>
+                    <Text style={[styles.inputLabel, { color: theme.colors.text }]}>New Password</Text>
+                    <View style={[styles.passwordContainer, { 
+                        backgroundColor: theme.colors.secondary,
+                        borderColor: theme.colors.border
+                    }]}>
+                        <TextInput
+                            style={[styles.passwordInput, { color: theme.colors.text }]}
+                            placeholder="Enter new password"
+                            placeholderTextColor={theme.colors.textSecondary}
+                            value={newPassword}
+                            onChangeText={setNewPassword}
+                            secureTextEntry={!showNewPassword}
+                            autoCapitalize="none"
                         />
-                    </TouchableOpacity>
+                        <TouchableOpacity 
+                            style={styles.eyeIcon} 
+                            onPress={() => setShowNewPassword(!showNewPassword)}
+                        >
+                            <Ionicons 
+                                name={showNewPassword ? "eye-off-outline" : "eye-outline"} 
+                                size={24} 
+                                color={theme.colors.textSecondary}
+                            />
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </View>
 
-            <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Confirm Password</Text>
-                <View style={styles.passwordContainer}>
-                    <TextInput
-                        style={styles.passwordInput}
-                        placeholder="Confirm password"
-                        value={confirmPassword}
-                        onChangeText={setConfirmPassword}
-                        secureTextEntry={!showConfirmPassword}
-                        autoCapitalize="none"
-                    />
-                    <TouchableOpacity
-                        style={styles.eyeIcon}
-                        onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-                    >
-                        <Ionicons
-                            name={showConfirmPassword ? "eye-off-outline" : "eye-outline"}
-                            size={24}
-                            color="#9CA3AF"
+                <View style={styles.inputContainer}>
+                    <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Confirm Password</Text>
+                    <View style={[styles.passwordContainer, { 
+                        backgroundColor: theme.colors.secondary,
+                        borderColor: theme.colors.border
+                    }]}>
+                        <TextInput
+                            style={[styles.passwordInput, { color: theme.colors.text }]}
+                            placeholder="Confirm password"
+                            placeholderTextColor={theme.colors.textSecondary}
+                            value={confirmPassword}
+                            onChangeText={setConfirmPassword}
+                            secureTextEntry={!showConfirmPassword}
+                            autoCapitalize="none"
                         />
-                    </TouchableOpacity>
+                        <TouchableOpacity 
+                            style={styles.eyeIcon} 
+                            onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                        >
+                            <Ionicons 
+                                name={showConfirmPassword ? "eye-off-outline" : "eye-outline"} 
+                                size={24} 
+                                color={theme.colors.textSecondary}
+                            />
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </View>
 
-            <TouchableOpacity
-                style={styles.resetButton}
-                onPress={handleResetPassword}
-            >
-                <Text style={styles.resetButtonText}>Reset Password</Text>
-            </TouchableOpacity>
+                <TouchableOpacity 
+                    style={[styles.resetButton, { backgroundColor: theme.colors.primary }]}
+                    onPress={handleResetPassword}
+                >
+                    <Text style={[styles.resetButtonText, { color: theme.colors.background }]}>
+                        Reset Password
+                    </Text>
+                </TouchableOpacity>
+            </View>
 
             <View style={styles.footerContainer}>
-                <Text style={styles.rememberText}>Remembered password? </Text>
-                <Link href="/auth/sign-in" style={styles.signInLink}>Sign In</Link>
+                <Text style={[styles.rememberText, { color: theme.colors.textSecondary }]}>Remembered password? </Text>
+                <Link href="/auth/sign-in" style={[styles.signInLink, { color: theme.colors.text }]}>Sign In</Link>
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'white',
         padding: 20,
-        paddingTop: 60,
     },
     title: {
-        fontSize: 24,
+        fontSize: 32,
         fontWeight: 'bold',
-        marginBottom: 40,
+        marginTop: 60,
+        marginBottom: 8,
         textAlign: 'center',
     },
+    subtitle: {
+        fontSize: 16,
+        textAlign: 'center',
+        marginBottom: 40,
+    },
+    form: {
+        gap: 16,
+    },
     inputContainer: {
-        marginBottom: 20,
+        marginBottom: 16,
     },
     inputLabel: {
         fontSize: 16,
@@ -106,32 +133,28 @@ const styles = StyleSheet.create({
         marginBottom: 8,
     },
     passwordContainer: {
-        flexDirection: 'row',
+        height: 48,
         borderWidth: 1,
-        borderColor: '#E5E7EB',
         borderRadius: 8,
-        height: 50,
+        flexDirection: 'row',
         alignItems: 'center',
+        paddingHorizontal: 16,
     },
     passwordInput: {
         flex: 1,
-        height: 50,
-        paddingHorizontal: 16,
         fontSize: 16,
     },
     eyeIcon: {
-        padding: 10,
+        padding: 4,
     },
     resetButton: {
-        backgroundColor: '#1F2937',
-        height: 50,
+        height: 56,
         borderRadius: 8,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 20,
+        marginBottom: 16,
     },
     resetButtonText: {
-        color: 'white',
         fontSize: 16,
         fontWeight: '600',
     },

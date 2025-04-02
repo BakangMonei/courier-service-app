@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import { Link, useRouter } from 'expo-router';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useTheme } from '../context/ThemeContext';
 
 export default function OTPScreen() {
+    const { theme, isDark } = useTheme();
     const [otp, setOtp] = useState(['', '', '', '']);
     const inputRefs = useRef<TextInput[]>([]);
     const router = useRouter();
@@ -26,131 +28,126 @@ export default function OTPScreen() {
         }
     };
 
-    const handleVerify = () => {
+    const handleVerifyOTP = () => {
         // Implement OTP verification logic here
         router.push('/auth/set-password');
     };
 
-    const handleResend = () => {
-        // Implement resend OTP logic here
-        setOtp(['', '', '', '']);
-        inputRefs.current[0].focus();
-    };
-
     return (
-        <View style={styles.container}>
-            <StatusBar style="dark" />
-            <Text style={styles.title}>Enter OTP</Text>
-            <Text style={styles.description}>
-                We've sent an OTP code to your email,{'\n'}
-                <Text style={styles.emailText}>Random3321@gmail.com</Text>
+        <ScrollView 
+            style={[styles.container, { backgroundColor: theme.colors.background }]}
+            showsVerticalScrollIndicator={false}
+        >
+            <StatusBar style={isDark ? "light" : "dark"} />
+            <Text style={[styles.title, { color: theme.colors.text }]}>Verify OTP</Text>
+            <Text style={[styles.subtitle, { color: theme.colors.textSecondary }]}>
+                Enter the verification code sent to your email
             </Text>
 
-            <View style={styles.otpContainer}>
-                {otp.map((digit, index) => (
-                    <TextInput
-                        key={index}
-                        ref={(ref) => ref && (inputRefs.current[index] = ref)}
-                        style={styles.otpInput}
-                        value={digit}
-                        onChangeText={(value) => handleOtpChange(value, index)}
-                        keyboardType="numeric"
-                        maxLength={1}
-                        onKeyPress={({ nativeEvent }) => {
-                            if (nativeEvent.key === 'Backspace') {
-                                handleBackspace(index);
-                            }
-                        }}
-                    />
-                ))}
+            <View style={styles.form}>
+                <View style={styles.otpContainer}>
+                    {otp.map((digit, index) => (
+                        <TextInput
+                            key={index}
+                            ref={(ref) => ref && (inputRefs.current[index] = ref)}
+                            style={[styles.otpInput, { 
+                                backgroundColor: theme.colors.secondary,
+                                color: theme.colors.text,
+                                borderColor: theme.colors.border
+                            }]}
+                            value={digit}
+                            onChangeText={(value) => handleOtpChange(value, index)}
+                            keyboardType="numeric"
+                            maxLength={1}
+                            onKeyPress={({ nativeEvent }) => {
+                                if (nativeEvent.key === 'Backspace') {
+                                    handleBackspace(index);
+                                }
+                            }}
+                            placeholder="0"
+                            placeholderTextColor={theme.colors.textSecondary}
+                        />
+                    ))}
+                </View>
+
+                <TouchableOpacity 
+                    style={[styles.verifyButton, { backgroundColor: theme.colors.primary }]}
+                    onPress={handleVerifyOTP}
+                >
+                    <Text style={[styles.verifyButtonText, { color: theme.colors.background }]}>
+                        Verify OTP
+                    </Text>
+                </TouchableOpacity>
+
+                <View style={styles.footerContainer}>
+                    <Text style={[styles.footerText, { color: theme.colors.text }]}>
+                        Didn't receive the code?{' '}
+                    </Text>
+                    <TouchableOpacity>
+                        <Text style={[styles.resendLink, { color: theme.colors.primary }]}>Resend</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-
-            <TouchableOpacity onPress={handleResend}>
-                <Text style={styles.resendText}>Didn't receive any code? Resend</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                style={styles.verifyButton}
-                onPress={handleVerify}
-            >
-                <Text style={styles.verifyButtonText}>Verify</Text>
-            </TouchableOpacity>
-
-            <View style={styles.footerContainer}>
-                <Text style={styles.rememberText}>Remembered password? </Text>
-                <Link href="/auth/sign-in" style={styles.signInLink}>Sign In</Link>
-            </View>
-        </View>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'white',
         padding: 20,
-        paddingTop: 60,
     },
     title: {
-        fontSize: 24,
+        fontSize: 32,
         fontWeight: 'bold',
-        marginBottom: 16,
+        marginTop: 60,
+        marginBottom: 8,
         textAlign: 'center',
     },
-    description: {
+    subtitle: {
         fontSize: 16,
-        color: '#6B7280',
         textAlign: 'center',
         marginBottom: 40,
     },
-    emailText: {
-        fontWeight: '600',
+    form: {
+        gap: 16,
     },
     otpContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 30,
+        marginBottom: 32,
     },
     otpInput: {
         width: 64,
         height: 64,
         borderWidth: 1,
-        borderColor: '#E5E7EB',
         borderRadius: 8,
         textAlign: 'center',
         fontSize: 24,
         fontWeight: '600',
     },
-    resendText: {
-        fontSize: 14,
-        color: '#6B7280',
-        textAlign: 'center',
-        marginBottom: 30,
-    },
     verifyButton: {
-        backgroundColor: '#1F2937',
-        height: 50,
+        height: 56,
         borderRadius: 8,
         justifyContent: 'center',
         alignItems: 'center',
+        marginBottom: 16,
     },
     verifyButtonText: {
-        color: 'white',
         fontSize: 16,
         fontWeight: '600',
     },
     footerContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
-        marginTop: 20,
+        alignItems: 'center',
+        marginBottom: 32,
     },
-    rememberText: {
-        fontSize: 14,
-        color: '#6B7280',
+    footerText: {
+        fontSize: 16,
     },
-    signInLink: {
-        fontSize: 14,
+    resendLink: {
+        fontSize: 16,
         fontWeight: '600',
-        color: '#1F2937',
     },
 });

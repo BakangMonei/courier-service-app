@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
+import { useTheme } from '../context/ThemeContext';
 
 export default function SignInScreen() {
+    const { theme, isDark } = useTheme();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -16,15 +18,23 @@ export default function SignInScreen() {
     };
 
     return (
-        <View style={styles.container}>
-            <StatusBar style="dark" />
-            <Text style={styles.title}>Sign In</Text>
+        <ScrollView 
+            style={[styles.container, { backgroundColor: theme.colors.background }]}
+            showsVerticalScrollIndicator={false}
+        >
+            <StatusBar style={isDark ? "light" : "dark"} />
+            <Text style={[styles.title, { color: theme.colors.text }]}>Sign In</Text>
 
             <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Email Address</Text>
+                <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Email Address</Text>
                 <TextInput
-                    style={styles.input}
+                    style={[styles.input, { 
+                        backgroundColor: theme.colors.secondary,
+                        color: theme.colors.text,
+                        borderColor: theme.colors.border
+                    }]}
                     placeholder="Enter email address"
+                    placeholderTextColor={theme.colors.textSecondary}
                     value={email}
                     onChangeText={setEmail}
                     keyboardType="email-address"
@@ -33,11 +43,15 @@ export default function SignInScreen() {
             </View>
 
             <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Password</Text>
-                <View style={styles.passwordContainer}>
+                <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Password</Text>
+                <View style={[styles.passwordContainer, { 
+                    backgroundColor: theme.colors.secondary,
+                    borderColor: theme.colors.border
+                }]}>
                     <TextInput
-                        style={styles.passwordInput}
+                        style={[styles.passwordInput, { color: theme.colors.text }]}
                         placeholder="Enter password"
+                        placeholderTextColor={theme.colors.textSecondary}
                         value={password}
                         onChangeText={setPassword}
                         secureTextEntry={!showPassword}
@@ -50,56 +64,57 @@ export default function SignInScreen() {
                         <Ionicons
                             name={showPassword ? "eye-off-outline" : "eye-outline"}
                             size={24}
-                            color="#9CA3AF"
+                            color={theme.colors.textSecondary}
                         />
                     </TouchableOpacity>
                 </View>
-                <Link href="/auth/forgot-password" style={styles.forgotText}>
+                <Link href="/auth/forgot-password" style={[styles.forgotText, { color: theme.colors.primary }]}>
                     Forgot password?
                 </Link>
             </View>
 
             <TouchableOpacity
-                style={styles.signInButton}
+                style={[styles.signInButton, { backgroundColor: theme.colors.primary }]}
                 onPress={handleSignIn}
             >
-                <Text style={styles.signInButtonText}>Sign In</Text>
+                <Text style={[styles.signInButtonText, { color: theme.colors.background }]}>Sign In</Text>
             </TouchableOpacity>
 
             <View style={styles.accountContainer}>
-                <Text style={styles.noAccountText}>Don't have an account? </Text>
-                <Link href="/auth/register" style={styles.createAccountLink}>Create Account</Link>
+                <Text style={[styles.noAccountText, { color: theme.colors.textSecondary }]}>Don't have an account? </Text>
+                <Link href="/auth/register" style={[styles.createAccountLink, { color: theme.colors.primary }]}>
+                    Create Account
+                </Link>
             </View>
 
             <View style={styles.separatorContainer}>
-                <Text style={styles.separatorText}>Or Sign in with</Text>
+                <Text style={[styles.separatorText, { color: theme.colors.textSecondary }]}>Or Sign in with</Text>
             </View>
 
             <View style={styles.socialButtonsContainer}>
-                <TouchableOpacity style={styles.socialButton}>
+                <TouchableOpacity style={[styles.socialButton, { borderColor: theme.colors.border }]}>
                     <Image
                         source={require('../../assets/images/google-icon.png')}
                         style={styles.socialIcon}
                     />
-                    <Text style={styles.socialButtonText}>Google</Text>
+                    <Text style={[styles.socialButtonText, { color: theme.colors.text }]}>Google</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.socialButton}>
+                <TouchableOpacity style={[styles.socialButton, { borderColor: theme.colors.border }]}>
                     <Image
                         source={require('../../assets/images/apple-icon.png')}
                         style={styles.socialIcon}
                     />
-                    <Text style={styles.socialButtonText}>Apple</Text>
+                    <Text style={[styles.socialButtonText, { color: theme.colors.text }]}>Apple</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'white',
         padding: 20,
         paddingTop: 60,
     },
@@ -120,7 +135,6 @@ const styles = StyleSheet.create({
     input: {
         height: 50,
         borderWidth: 1,
-        borderColor: '#E5E7EB',
         borderRadius: 8,
         paddingHorizontal: 16,
         fontSize: 16,
@@ -128,7 +142,6 @@ const styles = StyleSheet.create({
     passwordContainer: {
         flexDirection: 'row',
         borderWidth: 1,
-        borderColor: '#E5E7EB',
         borderRadius: 8,
         height: 50,
         alignItems: 'center',
@@ -145,11 +158,9 @@ const styles = StyleSheet.create({
     forgotText: {
         alignSelf: 'flex-end',
         marginTop: 8,
-        color: '#1F2937',
         fontSize: 14,
     },
     signInButton: {
-        backgroundColor: '#1F2937',
         height: 50,
         borderRadius: 8,
         justifyContent: 'center',
@@ -157,7 +168,6 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     signInButtonText: {
-        color: 'white',
         fontSize: 16,
         fontWeight: '600',
     },
@@ -168,12 +178,10 @@ const styles = StyleSheet.create({
     },
     noAccountText: {
         fontSize: 14,
-        color: '#6B7280',
     },
     createAccountLink: {
         fontSize: 14,
         fontWeight: '600',
-        color: '#1F2937',
     },
     separatorContainer: {
         flexDirection: 'row',
@@ -184,7 +192,6 @@ const styles = StyleSheet.create({
         flex: 1,
         textAlign: 'center',
         fontSize: 14,
-        color: '#6B7280',
     },
     socialButtonsContainer: {
         flexDirection: 'row',
@@ -195,7 +202,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height: 50,
         borderWidth: 1,
-        borderColor: '#E5E7EB',
         borderRadius: 8,
         justifyContent: 'center',
         alignItems: 'center',
